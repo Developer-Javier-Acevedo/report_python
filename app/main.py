@@ -7,10 +7,12 @@ load_dotenv(override=True)
 
 from flask import Flask
 from flask_cors import CORS
+from app.routes.alse_horas_routes import alse_horas
 from app.routes.healthcheck import healthcheck
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:4200"])
 app.register_blueprint(healthcheck, url_prefix="/api/sicca")
+app.register_blueprint(alse_horas, url_prefix="/api/sicca")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
