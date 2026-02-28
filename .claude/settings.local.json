@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:8000/api/sicca/ping)",
+      "Bash(curl -s http://localhost:8000/api/sicca/db-check)"
+    ]
+  }
+}
