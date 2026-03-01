@@ -1,0 +1,158 @@
+{
+  "info": {
+    "name": "SICCA API",
+    "description": "Colección de endpoints del backend Flask - report_python\n\nBase URL variable: {{base_url}} = http://localhost:8000",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Ping",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/sicca/ping",
+              "host": ["{{base_url}}"],
+              "path": ["api", "sicca", "ping"]
+            },
+            "description": "Verifica que el servidor Flask está corriendo."
+          },
+          "response": [
+            {
+              "name": "OK",
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"status\": \"ok\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "DB Check (Oracle)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/sicca/db-check",
+              "host": ["{{base_url}}"],
+              "path": ["api", "sicca", "db-check"]
+            },
+            "description": "Valida la conexión Oracle ejecutando SELECT 1 FROM DUAL."
+          },
+          "response": [
+            {
+              "name": "Conexión OK",
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"status\": \"ok\",\n  \"oracle_result\": 1\n}"
+            },
+            {
+              "name": "Error de conexión",
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"status\": \"error\",\n  \"detail\": \"<mensaje del error Oracle>\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Alse Horas",
+      "item": [
+        {
+          "name": "Listar todos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/sicca/alse-horas",
+              "host": ["{{base_url}}"],
+              "path": ["api", "sicca", "alse-horas"]
+            },
+            "description": "Retorna todos los registros de ALSE horas."
+          },
+          "response": [
+            {
+              "name": "OK",
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "[\n  {\n    \"id_alse_horas\": 1,\n    \"id_alse_biografia\": 10,\n    \"id_req_hora\": 5,\n    \"cant_anual\": 200,\n    \"cant_pp\": 100,\n    \"cant_sp\": 100,\n    \"comentarios\": \"Ejemplo\",\n    \"usuario_creador\": \"SICCA\",\n    \"fecha_creacion\": \"2024-01-15T08:30:00\",\n    \"usuario_modificador\": null,\n    \"fecha_modificacion\": null,\n    \"ejc_version\": 1\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Obtener por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/sicca/alse-horas/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "sicca", "alse-horas", "1"]
+            },
+            "description": "Retorna un registro de ALSE horas por su ID.\n\nCambia el último segmento de la URL por el ID deseado."
+          },
+          "response": [
+            {
+              "name": "Encontrado",
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"id_alse_horas\": 1,\n  \"id_alse_biografia\": 10,\n  \"id_req_hora\": 5,\n  \"cant_anual\": 200,\n  \"cant_pp\": 100,\n  \"cant_sp\": 100,\n  \"comentarios\": \"Ejemplo\",\n  \"usuario_creador\": \"SICCA\",\n  \"fecha_creacion\": \"2024-01-15T08:30:00\",\n  \"usuario_modificador\": null,\n  \"fecha_modificacion\": null,\n  \"ejc_version\": 1\n}"
+            },
+            {
+              "name": "No encontrado",
+              "status": "Not Found",
+              "code": 404,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"message\": \"Registro no encontrado\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Formularios PDF",
+      "item": [
+        {
+          "name": "Descargar Formulario UAS/RPAS",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/sicca/formulario-uas",
+              "host": ["{{base_url}}"],
+              "path": ["api", "sicca", "formulario-uas"]
+            },
+            "description": "Genera y descarga el Formulario de Registro UAS/RPAS en formato PDF (3 páginas).\n\nEn Postman: la respuesta se descarga como archivo. Hacer clic en 'Save Response > Save to a file' para guardar el PDF."
+          },
+          "response": [
+            {
+              "name": "PDF generado",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/pdf" },
+                { "key": "Content-Disposition", "value": "attachment; filename=formulario_uas_rpas.pdf" }
+              ],
+              "body": "<binary PDF content>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
